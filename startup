@@ -11,18 +11,27 @@ if [ -z "${NFS_WHAT-}" ]; then
   exit 1
 fi
 
-DEFAULT_SCRIPT=/scripts/defaultscript.sh
-if [ -n "${SCRIPT-}" ]; then
-  echo "Writing ENV script to $DEFAULT_SCRIPT"
-  echo -e "${SCRIPT}" > "$DEFAULT_SCRIPT"
-else
-  echo -e "#!/bin/bash\nexec /bin/bash" > "$DEFAULT_SCRIPT"
+if [ -n "${CONTAINER_SCRIPT-}" ]; then
+  CONTAINER_SCRIPT_FILE=/tmp/containerscript.sh
+  echo "Writing container script to $CONTAINER_SCRIPT_FILE"
+  echo -e "${CONTAINER_SCRIPT}" > "$CONTAINER_SCRIPT_FILE"
+  chmod +x "$CONTAINER_SCRIPT_FILE"
+  echo "Executing $CONTAINER_SCRIPT_FILE"
+  "$CONTAINER_SCRIPT_FILE"
 fi
-chmod 755 "$DEFAULT_SCRIPT"
+
+DEFAULT_SCRIPT_FILE=/scripts/defaultscript.sh
+if [ -n "${HOST_SCRIPT-}" ]; then
+  echo "Writing host script to $DEFAULT_SCRIPT_FILE"
+  echo -e "${HOST_SCRIPT}" > "$DEFAULT_SCRIPT_FILE"
+else
+  echo -e "#!/bin/bash\nexec /bin/bash" > "$DEFAULT_SCRIPT_FILE"
+fi
+chmod 755 "$DEFAULT_SCRIPT_FILE"
 
 
 echo "Copying NFS mount script to host filesystem"
 cp -a /scripts /host/tmp/
 
 echo "Chrooting into the host filesystem"
-chroot /host ${*:-/tmp$DEFAULT_SCRIPT}
+chroot /host ${*:-/tmp$DEFAULT_SCRIPT_FILE}
