@@ -1,5 +1,11 @@
 #!/bin/bash
 
+function cleanup() {
+  rm -rf /host/tmp/scripts
+}
+
+trap cleanup INT TERM EXIT
+
 if [ -z "${NFS_WHAT-}" ]; then
   echo "NFS_WHAT environment variable is undefined"
   exit 1
