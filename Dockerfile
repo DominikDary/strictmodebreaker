@@ -1,11 +1,11 @@
 FROM alpine:edge
 
 COPY startup /sbin/startup
-COPY mount-nfs /sbin/mount-nfs
+COPY scripts /scripts
 
 WORKDIR /root
 RUN apk add --no-cache tini bash \
-    && chmod 755 /sbin/startup /sbin/mount-nfs
+    && chmod 755 /sbin/startup /scripts/*
 
-ENTRYPOINT ["/sbin/tini", "--"]
-CMD ["/sbin/startup"]
+ENTRYPOINT ["/sbin/tini", "--", "/sbin/startup"]
+CMD ["/bin/bash"]

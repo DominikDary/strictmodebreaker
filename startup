@@ -6,7 +6,7 @@ if [ -z "${NFS_WHAT-}" ]; then
 fi
 
 echo "Copying NFS mount script to host filesystem"
-cp /sbin/mount-nfs /host/tmp/mount-nfs
+cp -a /scripts /host/tmp/
 
 echo "Chrooting into the host filesystem"
-chroot /host /tmp/mount-nfs
+chroot /host $*
