@@ -1,4 +1,9 @@
 #!/bin/bash
+if [ -z "${NFS_WHAT-}" ]; then
+  echo "NFS_WHAT environment variable is undefined"
+  exit 1
+fi
+
 echo "Mounting NFS to /shared"
 if [ ! -f /etc/systemd/system/shared.mount ]
 then

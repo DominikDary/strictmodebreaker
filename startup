@@ -6,11 +6,6 @@ function cleanup() {
 
 trap cleanup INT TERM EXIT
 
-if [ -z "${NFS_WHAT-}" ]; then
-  echo "NFS_WHAT environment variable is undefined"
-  exit 1
-fi
-
 if [ -n "${CONTAINER_SCRIPT-}" ]; then
   CONTAINER_SCRIPT_FILE=/tmp/containerscript.sh
   echo "Writing container script to $CONTAINER_SCRIPT_FILE"
