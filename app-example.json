@@ -1,0 +1,36 @@
+{
+  "id": "/tools/nfs-mount",
+  "instances": 0,
+  "args": ["/tmp/scripts/mount-nfs"],
+  "cpus": 0.1,
+  "mem": 128,
+  "constraints": [
+    [
+      "hostname",
+      "UNIQUE"
+    ]
+  ],
+  "container": {
+    "type": "DOCKER",
+    "volumes": [
+      {
+        "containerPath": "/host",
+        "hostPath": "/",
+        "mode": "RW"
+      }
+    ],
+    "docker": {
+      "image": "lloesche/strictmodebreaker",
+      "forcePullImage": true,
+      "privileged": true
+    }
+  },
+  "env": {
+    "NFS_WHAT": "10.0.0.7:/"
+  },
+  "networks": [
+    {
+      "mode": "host"
+    }
+  ]
+}
