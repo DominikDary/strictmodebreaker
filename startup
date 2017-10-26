@@ -11,8 +11,18 @@ if [ -z "${NFS_WHAT-}" ]; then
   exit 1
 fi
 
+DEFAULT_SCRIPT=/scripts/defaultscript.sh
+if [ -n "${SCRIPT-}" ]; then
+  echo "Writing ENV script to $DEFAULT_SCRIPT"
+  echo -e "${SCRIPT}" > "$DEFAULT_SCRIPT"
+else
+  echo -e "#!/bin/bash\nexec /bin/bash" > "$DEFAULT_SCRIPT"
+fi
+chmod 755 "$DEFAULT_SCRIPT"
+
+
 echo "Copying NFS mount script to host filesystem"
 cp -a /scripts /host/tmp/
 
 echo "Chrooting into the host filesystem"
-chroot /host $*
+chroot /host ${*:-/tmp$DEFAULT_SCRIPT}
