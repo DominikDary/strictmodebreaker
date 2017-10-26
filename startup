@@ -1,6 +1,7 @@
 #!/bin/bash
 
 function cleanup() {
+  echo "Cleaning up /host/tmp/scripts"
   rm -rf /host/tmp/scripts
 }
 
@@ -25,7 +26,7 @@ fi
 chmod 755 "$DEFAULT_SCRIPT_FILE"
 
 
-echo "Copying NFS mount script to host filesystem"
+echo "Copying custom scripts to host filesystem"
 cp -a /scripts /host/tmp/
 
 echo "Chrooting into the host filesystem"

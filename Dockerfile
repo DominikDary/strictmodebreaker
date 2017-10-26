@@ -8,4 +8,3 @@ RUN apk add --no-cache tini bash \
     && chmod 755 /sbin/startup /scripts/*
 
 ENTRYPOINT ["/sbin/tini", "--", "/sbin/startup"]
-CMD ["/bin/bash"]
