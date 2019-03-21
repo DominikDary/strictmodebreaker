@@ -24,7 +24,7 @@ EOF
 systemctl daemon-reload
 fi
 
-rpm -q cachefilesd > /dev/null || yum -y install cachefilesd
+#rpm -q cachefilesd > /dev/null || yum -y install cachefilesd
 mkdir -p /dcos/volume0/fscache
 sed -i'' \
   -e 's#^dir .*#dir /dcos/volume0/fscache#' \
